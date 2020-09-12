@@ -1,71 +1,31 @@
-TEST?=$$(go list ./... |grep -v 'vendor')
-GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
-COVER_TEST?=$$(go list ./... |grep -v 'vendor')
-TEST_TIMEOUT?=700m
+## Docker image naming; overridable by environment
+TESTDIR ?= $(PWD)
+NONE_IMAGES ?=  $(docker images --filter "dangling=true" -q --no-trunc)
+IMAGE_NAME ?= terraform-ibmcloud-modules
+IMAGE_VERSION_LATEST ?= latest
+#IBMCLOUD_IAM_API_ENDPOINT = "https://iam.test.cloud.ibm.com"
+#IBMCLOUD_IS_NG_API_ENDPOINT = "us-south-stage01.iaasdev.cloud.ibm.com"
+#IBMCLOUD_IS_API_ENDPOINT= "https://us-south-stage01.iaasdev.cloud.ibm.com"
+DOCKER_RUN_ENV_CMDLINE_ARGUMENTS ?= --env IBMCLOUD_API_KEY=${IBMCLOUD_API_KEY}\
+ 									--env IBMCLOUD_IAM_API_ENDPOINT=${IBMCLOUD_IAM_API_ENDPOINT}\
+ 									--env IBMCLOUD_IS_NG_API_ENDPOINT=${IBMCLOUD_IS_NG_API_ENDPOINT}\
+ 									--env IBMCLOUD_IS_API_ENDPOINT=${IBMCLOUD_IS_API_ENDPOINT}\
+ 									--env IBMCLOUD_RESOURCE_MANAGEMENT_API_ENDPOINT=${IBMCLOUD_RESOURCE_MANAGEMENT_API_ENDPOINT}
 
-default: build
+default: docker-build run-tests
 
-tools:
-	@go get github.com/kardianos/govendor
-	@go get github.com/mitchellh/gox
-	@go get golang.org/x/tools/cmd/cover
+docker-build:
+	@echo 'Build a container'
+	docker build . -t ${IMAGE_NAME}:${IMAGE_VERSION_LATEST}
 
+run-tests:
+	@echo 'Run some tests!!!'
+	docker run  ${DOCKER_RUN_ENV_CMDLINE_ARGUMENTS} -v `pwd`:/terraform-ibmcloud-modules ${IMAGE_NAME}:${IMAGE_VERSION_LATEST} gotestsum --format testname --junitfile terratest-output.xml ./test/...
 
-build: fmtcheck vet
-	go install
+debug-container:
+	docker run -it  ${DOCKER_RUN_ENV_CMDLINE_ARGUMENTS} -v `pwd`:/terraform-ibmcloud-modules ${IMAGE_NAME}:${IMAGE_VERSION_LATEST} bash
 
-bin: fmtcheck vet tools
-	@TF_RELEASE=1 sh -c "'$(CURDIR)/scripts/build.sh'"
+clean-docker:
+	docker rmi -f $(IMAGE_NAME):${IMAGE_VERSION_LATEST}
 
-dev: fmtcheck vet tools
-	@TF_DEV=1 sh -c "'$(CURDIR)/scripts/build.sh'"
-
-test: fmtcheck
-	go test -i $(TEST) || exit 1
-	echo $(TEST) | \
-		xargs -t -n4 go test $(TESTARGS) -timeout=30s -parallel=4
-
-testacc: fmtcheck
-	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout $(TEST_TIMEOUT)
-
-testrace: fmtcheck
-	TF_ACC= go test -race $(TEST) $(TESTARGS)
-
-cover:
-	@go tool cover 2>/dev/null; if [ $$? -eq 3 ]; then \
-		go get -u golang.org/x/tools/cmd/cover; \
-	fi
-	go test $(COVER_TEST) -coverprofile=coverage.out
-	go tool cover -html=coverage.out
-	rm coverage.out
-
-vet:
-	@echo "go vet ."
-	@go vet $$(go list ./... | grep -v vendor/) ; if [ $$? -eq 1 ]; then \
-		echo ""; \
-		echo "Vet found suspicious constructs. Please check the reported constructs"; \
-		echo "and fix them if necessary before submitting the code for review."; \
-		exit 1; \
-	fi
-
-fmt:
-	gofmt -w $(GOFMT_FILES)
-
-fmtcheck:
-	@sh -c "'$(CURDIR)/scripts/gofmtcheck.sh'"
-
-errcheck:
-	@sh -c "'$(CURDIR)/scripts/errcheck.sh'"
-
-vendor-status:
-	@govendor status
-
-test-compile: fmtcheck
-	@if [ "$(TEST)" = "./..." ]; then \
-		echo "ERROR: Set TEST to a specific package. For example,"; \
-		echo "  make test-compile TEST=./builtin/providers/aws"; \
-		exit 1; \
-	fi
-	go test -c $(TEST) $(TESTARGS)
-
-.PHONY: build bin dev test testacc testrace cover vet fmt fmtcheck errcheck vendor-status test-compile
+.PHONY: all

@@ -1,0 +1,24 @@
+language: minimal
+services:
+  - docker
+env:
+  global:
+    - VERSION="0.0.${TRAVIS_BUILD_NUMBER}"
+git:
+  depth: false
+
+before_script:
+  # Build local container to run terraform with
+  - make docker-build
+
+script:
+  - # Run the tests
+  - env
+  - make run-tests
+
+notifications:
+  email:
+    recipients:
+    - chuesgen@gmail.com
+    on_success: always
+    on_failure: always
