@@ -13,14 +13,11 @@ Collection of Terraform modules for IBM Cloud that will allow for users to more 
 2. Make - https://www.gnu.org/software/make/
 
 ## Required Environment Variables ##
-The below is an example of pointing at the IBMCLOUD staging environment
-```IBMCLOUD_API_ENDPOINT="https://test.cloud.ibm.com"
-IBMCLOUD_IAM_API_ENDPOINT="https://iam.test.cloud.ibm.com"
-IBMCLOUD_IS_NG_API_ENDPOINT="us-south-stage01.iaasdev.cloud.ibm.com"
-IBMCLOUD_IS_API_ENDPOINT="https://us-south-stage01.iaasdev.cloud.ibm.com"
-IBMCLOUD_RESOURCE_CATALOG_API_ENDPOINT="https://globalcatalog.test.cloud.ibm.com"
-IBMCLOUD_RESOURCE_MANAGEMENT_API_ENDPOINT="https://resource-controller.test.cloud.ibm.com"
-IBMCLOUD_GT_API_ENDPOINT="https://tags.global-search-tagging.test.cloud.ibm.com"
+```IBMCLOUD_API_ENDPOINT="https://cloud.ibm.com"
+IBMCLOUD_IAM_API_ENDPOINT="https://iam.cloud.ibm.com"
+IBMCLOUD_RESOURCE_CATALOG_API_ENDPOINT="https://globalcatalog.cloud.ibm.com"
+IBMCLOUD_RESOURCE_MANAGEMENT_API_ENDPOINT="https://resource-controller.cloud.ibm.com"
+IBMCLOUD_GT_API_ENDPOINT="https://tags.global-search-tagging.cloud.ibm.com"
 IBMCLOUD_API_KEY=<YOUR_API_KEY>
 ```
 
