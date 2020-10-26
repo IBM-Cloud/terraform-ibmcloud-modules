@@ -65,3 +65,6 @@ In order to have your additions to the repo merged into main all of the below mu
 * The contributor has added a test for any new modules created and/or updated any tests to test the new functionality they are adding
 
 It is the responsibility of the person who submitted the PR to merge into main once all of the requirements above have been met
+
+## Module requests and bugs ##
+If there are any specific module requests and/or any bugs that are found that need to be fixed please submit an issue through github.  One of the admins will groom the issues backlog on a regular cadence to make sure bugs and modules are getting completed 
