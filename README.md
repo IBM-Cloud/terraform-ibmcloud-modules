@@ -2,12 +2,15 @@
 Collection of Terraform modules for IBM Cloud that will allow for users to more easily use Terraform to manage resources in the IBMCloud
 
 ### Required Packages/Tools ###
-1. Terraform >= v0.12.x
-2. Terraform IBM Provider >= v1.7.1
+1. Terraform >= v0.12.x - https://github.com/IBM-Cloud/terraform-provider-ibm
+2. Terraform IBM Provider >= v1.7.1 - https://learn.hashicorp.com/tutorials/terraform/install-cli
+3. Terratest - https://github.com/gruntwork-io/terratest
+4. GO - https://golang.org/dl/
+5. Gotestsum - https://github.com/gotestyourself/gotestsum
 
 ### Optional Packages/Tools ###
-1. Docker
-2. Make
+1. Docker - https://www.docker.com/products/docker-desktop
+2. Make - https://www.gnu.org/software/make/
 
 ## Required Environment Variables ##
 The below is an example of pointing at the IBMCLOUD staging environment
@@ -27,7 +30,7 @@ There is a convenience container that you can build, run tests, and create a bas
 ** IBMCLOUD_API_KEY needs to be set to use the docker container **
 
 #### Building the Container ####
-Will build the convenience container
+Build the convenience container
 ```
 make docker-build
 ```
@@ -44,7 +47,16 @@ Will execute all of the tests in the test directory
 make run-tests
 ```
 
-## Rules of Engagement
+## Contributing ##
+1. The modules that are added need to be self contained Terraform modules for a specific Terraform resource in the provider.
+2. Each module should take care of initializing each dependent resource that is needed for the resource type i.e. VPC module will initiate a resource group
+3. Each module directory should have the following minimal files
+    1. main.tf - Institiates the IBMCloud resources from the provider
+    2. outputs.tf - Defines output objects
+    3. variables.tf - What required inputs are needed for the specific module use defaults whenever possible
+    4. versions.tf - Any specific version required for the modules
+
+## Rules of Engagement ##
 In order to have your additions to the repo merged into main all of the below must happen
 * Branch is up to date with master
 * All tests need to pass in Travis which can be executed locally by running  
