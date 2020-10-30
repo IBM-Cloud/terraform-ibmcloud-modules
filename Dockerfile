@@ -36,7 +36,7 @@ RUN set -ex && \
     libgcrypt20 \
     libgnutls30
 
-    # golang 1.13, the default golang is too old
+# golang 1.13, the default golang is too old
 RUN set -ex && \
     wget https://dl.google.com/go/go1.13.9.linux-amd64.tar.gz && \
     tar xzf go1.13.9.linux-amd64.tar.gz && \
@@ -46,19 +46,22 @@ RUN set -ex && \
 ENV GOROOT=/usr/local/go-1.13
 ENV PATH=$GOROOT/bin:${HOME}/go/bin:$PATH
 
-# terraform 0.12.25
+# tfenv and terraform
 RUN set -ex && \
-    wget https://releases.hashicorp.com/terraform/0.12.25/terraform_0.12.25_linux_amd64.zip && \
-    unzip terraform_0.12.25_linux_amd64.zip && \
-    chmod +x terraform && \
-    rm terraform_0.12.25_linux_amd64.zip && \
-    mv terraform /usr/local/bin && \
-
+    git clone https://github.com/tfutils/tfenv.git ~/.tfenv && \
+    echo 'export GOPATH=${HOME}/go' >> ~/.bashrc && \
+    echo 'export PATH=$HOME/.tfenv/bin:$PATH' >> ~/.bashrc
+ENV PATH=${HOME}/.tfenv/bin:$PATH
+RUN set -ex && \
+    tfenv install 0.12.29 && \
+    tfenv install latest:^0.13 && \
+    tfenv use 0.12.29 && \
     # ibm provider
-    wget https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v1.7.1/linux_amd64.zip && \
+    wget https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v1.14.0/linux_amd64.zip && \
     unzip linux_amd64.zip && \
     chmod +x terraform-provider-ibm_* && \
-    mv terraform-provider-ibm_* /usr/local/bin && \
+    mkdir -p ~/.terraform.d/plugins && \
+    mv terraform-provider-ibm_* ~/.terraform.d/plugins && \
     rm linux_amd64.zip && \
 
     # terratest
