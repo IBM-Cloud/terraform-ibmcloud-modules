@@ -70,6 +70,18 @@ RUN set -ex && \
     # go testsum
     go get gotest.tools/gotestsum
 
+# ibmcloud cli client
+RUN set -ex && \
+    curl -sL https://ibm.biz/idt-installer | bash && \
+    ibmcloud plugin install vpc-infrastructure -f && \
+    ibmcloud plugin install cloud-object-storage -f && \
+    ibmcloud plugin install key-protect && \
+    ibmcloud plugin install tke && \
+    ibmcloud plugin update --all -f && \
+    # docker-compose 1.25.5
+    curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+    chmod +x /usr/local/bin/docker-compose
+
 RUN apt autoremove -y && \
     apt clean -y && \
     rm -rf /var/lib/apt/lists/*
