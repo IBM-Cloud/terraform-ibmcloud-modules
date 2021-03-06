@@ -20,7 +20,7 @@ run-tests:
 	@echo 'Run some tests!!!'
 	docker run  ${DOCKER_RUN_ENV_CMDLINE_ARGUMENTS} -v `pwd`:/terraform-ibmcloud-modules ${IMAGE_NAME}:${IMAGE_VERSION_LATEST} gotestsum --format testname ./test/...
 
-debug-container:
+container-shell:
 	docker run -it  ${DOCKER_RUN_ENV_CMDLINE_ARGUMENTS} -v `pwd`:/terraform-ibmcloud-modules ${IMAGE_NAME}:${IMAGE_VERSION_LATEST} bash
 
 clean-docker:
