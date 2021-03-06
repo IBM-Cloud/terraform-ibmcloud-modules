@@ -24,7 +24,7 @@ func TestIbmIsPGW(t *testing.T) {
 	public_gateway_name := "testing-pgw-" + randomCharacters
 	zone := "us-south-1"
 
-	vpc_id,terraformVpcOptions := CreateVPC(t, randomCharacters)
+	vpc_id, terraformVpcOptions := CreateVPC(t, randomCharacters)
 
 	// website::tag::1::Configure Terraform setting path to Terraform code
 	terraformOptions := &terraform.Options{
@@ -34,8 +34,8 @@ func TestIbmIsPGW(t *testing.T) {
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{
 			"public_gateway_name": public_gateway_name,
-			"vpc_id": vpc_id,
-			"zone": zone,
+			"vpc_id":              vpc_id,
+			"zone":                zone,
 		},
 	}
 
@@ -51,7 +51,7 @@ func TestIbmIsPGW(t *testing.T) {
 	// Verify the name is what was set
 	ret_public_gateway_name := terraform.Output(t, terraformOptions, "public_gateway_name")
 	fmt.Println("ret_public_gateway_name: ", ret_public_gateway_name)
-    assert.Equal(t, public_gateway_name, ret_public_gateway_name)
+	assert.Equal(t, public_gateway_name, ret_public_gateway_name)
 
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created
 	terraform.Destroy(t, terraformOptions)

@@ -50,6 +50,6 @@ func TestIbmIsVPC(t *testing.T) {
 	// Verify the name is what was set
 	ret_vpc_name := terraform.Output(t, terraformOptions, "vpc_name")
 	fmt.Println("ret_ibm_is_vpc: ", ret_vpc_name)
-    assert.Equal(t, vpc_name, ret_vpc_name)
+	assert.Equal(t, vpc_name, ret_vpc_name)
 
 }
