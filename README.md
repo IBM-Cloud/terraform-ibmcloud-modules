@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/IBM-Cloud/terraform-ibmcloud-modules.svg?branch=main)](https://travis-ci.org/IBM-Cloud/terraform-ibmcloud-modules)
+
 # Terraform Ibmcloud Modules
 Collection of Terraform modules for IBM Cloud that will allow for users to more easily use Terraform to manage resources in the IBMCloud
 
