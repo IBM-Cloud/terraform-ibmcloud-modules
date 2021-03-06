@@ -1,5 +1,5 @@
 # Summary
- This PR is to resolve the issue : [issue-XXXXX](https://github.com/IBM-Cloud/terraform-ibmcloud-modules/issues/XXXXX)
+ This PR is to resolve the issue : [ISSUE-XXXXX](https://github.com/IBM-Cloud/terraform-ibmcloud-modules/issues/XXXXX)
 
 # Description
 
