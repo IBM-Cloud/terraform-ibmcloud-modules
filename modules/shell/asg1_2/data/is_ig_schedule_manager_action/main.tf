@@ -1,4 +1,3 @@
-
 data "shell_script" "is_ig_schedule_manager_action" {
   lifecycle_commands {
     read = file("${path.module}/scripts/read.sh")

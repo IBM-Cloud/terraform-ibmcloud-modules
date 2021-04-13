@@ -1,6 +1,3 @@
-# IBM Confidential
-
-
 resource "shell_script" "is_ig_schedule_manager_action" {
   lifecycle_commands {
     create = file("${path.module}/scripts/create.sh")
