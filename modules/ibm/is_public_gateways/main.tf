@@ -1,3 +1,4 @@
+
 variable "prefix" {
   default     = "prefix"
   description = "The prefix string"
