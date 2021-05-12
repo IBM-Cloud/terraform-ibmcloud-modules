@@ -20,7 +20,7 @@ func init() {
 
 // An example of how to test the Terraform module in examples/terraform-aws-example using Terratest.
 func TestIbmIsVPC(t *testing.T) {
-	t.Parallel()
+	//t.Parallel()
 	randomCharacters := fmt.Sprintf(strings.ToLower(random.UniqueId()))
 	vpc_name := "testing-vpc-" + randomCharacters
 
