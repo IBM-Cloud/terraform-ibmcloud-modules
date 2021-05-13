@@ -20,7 +20,7 @@ func init() {
 }
 
 func TestIbmIsSG(t *testing.T) {
-	t.Parallel()
+	//t.Parallel()
 	randomCharacters := fmt.Sprintf(strings.ToLower(random.UniqueId()))
 	sg_name := "test-sg-" + randomCharacters
 
