@@ -4,11 +4,20 @@ NONE_IMAGES ?=  $(docker images --filter "dangling=true" -q --no-trunc)
 IMAGE_NAME ?= terraform-ibmcloud-modules
 IMAGE_VERSION_LATEST ?= latest
 
+## Environment configuration file
+ENVIRONMENT_DIR = ./environments
+ENVIRONMENT ?= staging
+ENVIRONMENT_FILE = $(ENVIRONMENT_DIR)/$(ENVIRONMENT).env
+
 DOCKER_RUN_ENV_CMDLINE_ARGUMENTS ?= --env IBMCLOUD_API_KEY=${IBMCLOUD_API_KEY}\
- 									--env IBMCLOUD_IAM_API_ENDPOINT=${IBMCLOUD_IAM_API_ENDPOINT}\
- 									--env IBMCLOUD_IS_NG_API_ENDPOINT=${IBMCLOUD_IS_NG_API_ENDPOINT}\
- 									--env IBMCLOUD_IS_API_ENDPOINT=${IBMCLOUD_IS_API_ENDPOINT}\
- 									--env IBMCLOUD_RESOURCE_MANAGEMENT_API_ENDPOINT=${IBMCLOUD_RESOURCE_MANAGEMENT_API_ENDPOINT}
+									--env-file $(ENVIRONMENT_FILE)
+
+#DOCKER_RUN_ENV_CMDLINE_ARGUMENTS ?= --env IBMCLOUD_API_KEY=${IBMCLOUD_API_KEY}\
+# 									--env IBMCLOUD_IAM_API_ENDPOINT=${IBMCLOUD_IAM_API_ENDPOINT}\
+# 									--env IBMCLOUD_IS_NG_API_ENDPOINT=${IBMCLOUD_IS_NG_API_ENDPOINT}\
+# 									--env IBMCLOUD_IS_API_ENDPOINT=${IBMCLOUD_IS_API_ENDPOINT}\
+# 									--env IBMCLOUD_RESOURCE_MANAGEMENT_API_ENDPOINT=${IBMCLOUD_RESOURCE_MANAGEMENT_API_ENDPOINT}
+
 
 default: docker-build run-tests
 
@@ -16,13 +25,14 @@ docker-build:
 	@echo 'Build a container'
 	docker build . -t ${IMAGE_NAME}:${IMAGE_VERSION_LATEST}
 
-run-tests:
+run-tests: $(ENVIRONMENT_FILE)
 	@echo 'Run some tests!!!'
-	docker run  ${DOCKER_RUN_ENV_CMDLINE_ARGUMENTS} -v `pwd`:/terraform-ibmcloud-modules ${IMAGE_NAME}:${IMAGE_VERSION_LATEST} gotestsum --format testname ./test/...
+	docker run ${DOCKER_RUN_ENV_CMDLINE_ARGUMENTS} -v `pwd`:/terraform-ibmcloud-modules ${IMAGE_NAME}:${IMAGE_VERSION_LATEST} gotestsum --format testname ./test/...
 
-container-shell:
-	docker run -it  ${DOCKER_RUN_ENV_CMDLINE_ARGUMENTS} -v `pwd`:/terraform-ibmcloud-modules ${IMAGE_NAME}:${IMAGE_VERSION_LATEST} bash
+container-shell: $(ENVIRONMENT_FILE)
+	docker run -it ${DOCKER_RUN_ENV_CMDLINE_ARGUMENTS} ${IMAGE_NAME}:${IMAGE_VERSION_LATEST} bash
 
+#docker run -it ${DOCKER_RUN_ENV_CMDLINE_ARGUMENTS} -v `pwd`:/terraform-ibmcloud-modules ${IMAGE_NAME}:${IMAGE_VERSION_LATEST} bash
 clean-docker:
 	docker rmi -f $(IMAGE_NAME):${IMAGE_VERSION_LATEST}
 
