@@ -17,8 +17,8 @@ default: docker-build run-tests
 
 docker-build:
 	@echo 'Build a container'
-	- echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
-	- docker build . -t ${IMAGE_NAME}:${IMAGE_VERSION_LATEST}
+	echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin
+	docker build . -t ${IMAGE_NAME}:${IMAGE_VERSION_LATEST}
 
 run-tests: $(ENVIRONMENT_FILE)
 	@echo 'Run some tests!!!'
