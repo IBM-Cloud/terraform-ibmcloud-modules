@@ -15,7 +15,7 @@ before_script:
 script:
   - # Run the tests
   - env
-  - make run-tests ENVIRONMENT=prod
+  - make run-tests ENVIRONMENT=staging
 
 notifications:
   email:
