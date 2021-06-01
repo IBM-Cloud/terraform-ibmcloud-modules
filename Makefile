@@ -23,7 +23,7 @@ run-tests: $(ENVIRONMENT_FILE)
 	docker run ${DOCKER_RUN_ENV_CMDLINE_ARGUMENTS} -v `pwd`:/terraform-ibmcloud-modules ${IMAGE_NAME}:${IMAGE_VERSION_LATEST} gotestsum --format testname ./test/...
 
 container-shell: $(ENVIRONMENT_FILE)
-	docker run -it ${DOCKER_RUN_ENV_CMDLINE_ARGUMENTS} ${IMAGE_NAME}:${IMAGE_VERSION_LATEST} bash
+	docker run -it ${DOCKER_RUN_ENV_CMDLINE_ARGUMENTS} -v `pwd`:/terraform-ibmcloud-modules ${IMAGE_NAME}:${IMAGE_VERSION_LATEST} bash
 
 clean-docker:
 	docker rmi -f $(IMAGE_NAME):${IMAGE_VERSION_LATEST}
