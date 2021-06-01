@@ -12,12 +12,10 @@ ENVIRONMENT_FILE = $(ENVIRONMENT_DIR)/$(ENVIRONMENT).env
 DOCKER_RUN_ENV_CMDLINE_ARGUMENTS ?= --env IBMCLOUD_API_KEY=${IBMCLOUD_API_KEY}\
 									--env-file $(ENVIRONMENT_FILE)
 
-
 default: docker-build run-tests
 
 docker-build:
 	@echo 'Build a container'
-	echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin
 	docker build . -t ${IMAGE_NAME}:${IMAGE_VERSION_LATEST}
 
 run-tests: $(ENVIRONMENT_FILE)
