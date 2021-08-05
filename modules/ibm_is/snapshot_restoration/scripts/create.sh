@@ -1,11 +1,4 @@
 #!/bin/bash
-# IBM Confidential
-# OCO Source Materials
-# CLD-88676-1620634890
-# (c) Copyright IBM Corp. 2021
-# The source code for this program is not published or otherwise
-# divested of its trade secrets, irrespective of what has been
-# deposited with the U.S. Copyright Office.
 
 set -ex
 source ${SCRIPTS_PATH}/functions

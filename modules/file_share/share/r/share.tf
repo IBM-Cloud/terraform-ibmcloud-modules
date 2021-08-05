@@ -1,10 +1,3 @@
-# IBM Confidential
-# OCO Source Materials
-# CLD-89892-1622659082
-# (c) Copyright IBM Corp. 2021
-# The source code for this program is not published or otherwise
-# divested of its trade secrets, irrespective of what has been
-# deposited with the U.S. Copyright Office
 
 
 #########1#########2#########3#########4#########5#########6#########7#########8
