@@ -1,3 +1,10 @@
+# IBM Confidential
+# OCO Source Materials
+# CLD-72063-1605817704
+# (c) Copyright IBM Corp. 2020
+# The source code for this program is not published or otherwise
+# divested of its trade secrets, irrespective of what has been
+# deposited with the U.S. Copyright Office.
 
 #### Expectation is public-sshkey name present on stgaing environment ######
 data "ibm_is_ssh_key" "public_ssh_key" {
