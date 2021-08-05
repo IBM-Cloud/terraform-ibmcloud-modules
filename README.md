@@ -15,11 +15,7 @@ Collection of Terraform modules for IBM Cloud that will allow for users to more 
 2. Make - https://www.gnu.org/software/make/
 
 ## Required Environment Variables ##
-```IBMCLOUD_API_ENDPOINT="https://cloud.ibm.com"
-IBMCLOUD_IAM_API_ENDPOINT="https://iam.cloud.ibm.com"
-IBMCLOUD_RESOURCE_CATALOG_API_ENDPOINT="https://globalcatalog.cloud.ibm.com"
-IBMCLOUD_RESOURCE_MANAGEMENT_API_ENDPOINT="https://resource-controller.cloud.ibm.com"
-IBMCLOUD_GT_API_ENDPOINT="https://tags.global-search-tagging.cloud.ibm.com"
+```
 IBMCLOUD_API_KEY=<YOUR_API_KEY>
 ```
 
@@ -41,9 +37,11 @@ make debug-container
 ```
 
 ### Executing Tests ###
-Will execute all of the tests in the test directory
+Will execute all of the tests in the test directory.  If you want to point at a different environment you can add an env file to the environments directory and pass it into the make run-tests.  It currently defaults to our staging environment
 ```
 make run-tests
+or
+make run-tests ENVIRONMENT=staging
 ```
 
 ## Contributing ##

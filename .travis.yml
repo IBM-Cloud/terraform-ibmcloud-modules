@@ -9,12 +9,13 @@ git:
 
 before_script:
   # Build local container to run terraform with
+  - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
   - make docker-build
 
 script:
   - # Run the tests
   - env
-  - make run-tests
+  - make run-tests ENVIRONMENT=staging
 
 notifications:
   email:
